@@ -1,0 +1,85 @@
+import * as React from "react";
+import styled, { css } from "styled-components";
+import { Editor } from 'draft-js';
+
+const { useState } = React;
+
+const ColorBoxStyle = css`
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #aaa;
+`;
+
+const ColorBoxContainer = styled.div`
+  ${ColorBoxStyle}
+  position: relative;
+`;
+
+const ColorBox = styled.div`
+  ${ColorBoxStyle}
+  &:active {
+    opacity: 0.5;
+  }
+`;
+
+const ColorModal = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 160px;
+  height: 200px;
+  background-color: #fff;
+  box-shadow: 1px 2px 5px #aaa;
+  padding: 10px 5px;
+`;
+
+const Colors = [
+  "#ff0000",
+  "#fc7100",
+  "#fcde00",
+  "#c1fc00",
+  "#00fc08",
+  "#00fca7",
+  "#00e2fc",
+  "#0025fc",
+  "#8600fc",
+  "#fc00d6",
+  "#fc0060",
+]
+
+interface ColorButtonProps {
+  editorState?: Editor;
+  setEditorState?: (editor?: React.SetStateAction<Editor>) => void;
+}
+
+const ColorButton: React.FC<ColorButtonProps> = () => {
+  const [selectedColor, setSelectedColor] = useState("#ffffff");
+  const [visible, setVisible] = useState(false);
+
+  const handleShowModal = () => {
+    setVisible(prevState => !prevState);
+  }
+
+  const handleChangeColor = (color: string) => () => {
+    setSelectedColor(color);
+  }
+
+  return (
+    <ColorBoxContainer onClick={handleShowModal} style={{ backgroundColor: selectedColor }}>
+      {
+        visible
+        &&
+        <ColorModal>
+          {Colors.map(color => <ColorBox onClick={handleChangeColor(color)} style={{ backgroundColor: color, margin: "0 10px" }} />)}
+        </ColorModal>
+      }
+    </ColorBoxContainer>
+  );
+}
+
+export default ColorButton;
