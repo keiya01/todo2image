@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
+import { RouteComponentProps } from "react-router-dom";
 import { MainColor } from "../atoms/color";
 import LongRadiusButton from "../molecules/LongRadiusButton";
 
@@ -32,7 +33,11 @@ const Title = styled.h1`
   letter-spacing: 0.1em;
 `;
 
-const HomeTopScreen: React.FC = () => {
+const HomeTopScreen: React.FC<RouteComponentProps> = ({history}) => {
+  const handleOnClick = () => {
+    history.push("create");
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -41,6 +46,7 @@ const HomeTopScreen: React.FC = () => {
           <LongRadiusButton
             text="画像を作成する"
             css={css`margin: 0 auto; margin-top: 200px;`}
+            onClick={handleOnClick}
           />
         </Contents>
       </Wrapper>

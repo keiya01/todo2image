@@ -1,12 +1,10 @@
 import * as React from 'react';
-import HomeTopScreen from "./pages/HomeTopScreen";
+import AppRoute from "./AppRoute";
 
-class App extends React.Component {
-  public render() {
-    return (
-      <HomeTopScreen />
-    );
-  }
+const App = () => {
+  return (
+    <AppRoute />
+  );
 }
 
 export default App;
