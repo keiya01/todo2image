@@ -7,20 +7,17 @@ const { useState } = React;
 const ColorBoxStyle = css`
   width: 30px;
   height: 30px;
-  border-radius: 5px;
   box-shadow: 0 0 5px #aaa;
+  border-radius: 15px;
 `;
-
-const ColorBoxContainer = styled.div`
+  
+  const ColorBoxContainer = styled.div`
   ${ColorBoxStyle}
   position: relative;
 `;
 
 const ColorBox = styled.div`
   ${ColorBoxStyle}
-  &:active {
-    opacity: 0.5;
-  }
 `;
 
 const ColorModal = styled.div`
@@ -32,7 +29,7 @@ const ColorModal = styled.div`
   top: 40px;
   left: 0;
   width: 160px;
-  height: 200px;
+  height: 210px;
   background-color: #fff;
   box-shadow: 1px 2px 5px #aaa;
   padding: 10px 5px;
@@ -41,16 +38,14 @@ const ColorModal = styled.div`
 const Colors = [
   "#ff0000",
   "#fc7100",
-  "#fcde00",
-  "#c1fc00",
   "#00fc08",
-  "#00fca7",
-  "#00e2fc",
   "#0025fc",
-  "#8600fc",
   "#fc00d6",
   "#fc0060",
-]
+  "#000000",
+  "#999999",
+  "#dddddd",
+];
 
 interface ColorButtonProps {
   editorState?: Editor;
