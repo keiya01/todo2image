@@ -15,7 +15,7 @@ const getClickPosition = ($canvas: HTMLCanvasElement, position: { x: number, y: 
   }
 }
 
-const drawCircle = ($canvas: HTMLCanvasElement, clickPosition: { x: number, y: number }, size: number = 10) => () => {
+const drawCircle = ($canvas: HTMLCanvasElement, clickPosition: { x: number, y: number }, size: number = 5) => () => {
   const ctx = $canvas.getContext("2d");
   if (!ctx) {
     return;
@@ -33,19 +33,19 @@ const drawCircle = ($canvas: HTMLCanvasElement, clickPosition: { x: number, y: n
   ctx.fillStyle = "rgba(255, 255, 255, 0.3)"
   ctx.fill();
 
-  if (size > (animationSize / 5)) {
+  if (size > (animationSize / 20)) {
     requestAnimationFrame(drawCircle($canvas, clickPosition, size + 30));
     return;
   }
 
-  requestAnimationFrame(drawCircle($canvas, clickPosition, size + 15));
+  requestAnimationFrame(drawCircle($canvas, clickPosition, size + 5));
 }
 
 export const clickCircleAnimation = ($canvas: HTMLCanvasElement | null, position: { x: number, y: number }) => {
   if (!$canvas) {
     return;
   }
-
+  
   const clickPosition = getClickPosition($canvas, position);
   requestAnimationFrame(drawCircle($canvas, clickPosition));
 }
