@@ -17,6 +17,7 @@
     "no-shadowed-variable": false,
     "member-access": false,
     "ordered-imports":false,
-    "no-console": [false, "warning"]
+    "no-console": [false, "warning"],
+    "no-unused-expression": false
   }
 }

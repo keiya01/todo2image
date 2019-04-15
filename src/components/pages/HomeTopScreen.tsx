@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const Contents = styled.div`
   width: 100%;
   text-align: center;
-`
+`;
 
 const Title = styled.h1`
   font-size: 30px;
