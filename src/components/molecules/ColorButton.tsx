@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { Editor } from 'draft-js';
 
 const { useState } = React;
@@ -10,14 +10,23 @@ const ColorBoxStyle = css`
   box-shadow: 0 0 5px #aaa;
   border-radius: 15px;
 `;
-  
-  const ColorBoxContainer = styled.div`
+
+const ColorBoxContainer = styled.div`
   ${ColorBoxStyle}
   position: relative;
 `;
 
 const ColorBox = styled.div`
   ${ColorBoxStyle}
+`;
+
+const showModal = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 `;
 
 const ColorModal = styled.div`
@@ -33,6 +42,7 @@ const ColorModal = styled.div`
   background-color: #fff;
   box-shadow: 1px 2px 5px #aaa;
   padding: 10px 5px;
+  animation: ${showModal} 200ms ease-in;
 `;
 
 const Colors = [
@@ -66,13 +76,11 @@ const ColorButton: React.FC<ColorButtonProps> = () => {
 
   return (
     <ColorBoxContainer onClick={handleShowModal} style={{ backgroundColor: selectedColor }}>
-      {
-        visible
-        &&
-        <ColorModal>
-          {Colors.map(color => <ColorBox onClick={handleChangeColor(color)} style={{ backgroundColor: color, margin: "0 10px" }} />)}
-        </ColorModal>
-      }
+      <ColorModal style={{ display: visible ? "flex" : "none" }}>
+        {Colors.map(color => (
+          <ColorBox onClick={handleChangeColor(color)} style={{ backgroundColor: color, margin: "0 10px" }} />
+        ))}
+      </ColorModal>
     </ColorBoxContainer>
   );
 }
