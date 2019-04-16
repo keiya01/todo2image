@@ -33,12 +33,7 @@ const drawCircle = ($canvas: HTMLCanvasElement, clickPosition: { x: number, y: n
   ctx.fillStyle = "rgba(255, 255, 255, 0.3)"
   ctx.fill();
 
-  if (size > (animationSize / 20)) {
-    requestAnimationFrame(drawCircle($canvas, clickPosition, size + 30));
-    return;
-  }
-
-  requestAnimationFrame(drawCircle($canvas, clickPosition, size + 5));
+  requestAnimationFrame(drawCircle($canvas, clickPosition, size + 30));
 }
 
 export const clickCircleAnimation = ($canvas: HTMLCanvasElement | null, position: { x: number, y: number }) => {
