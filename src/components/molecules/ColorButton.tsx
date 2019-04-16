@@ -1,13 +1,12 @@
 import * as React from "react";
 import styled, { css, keyframes } from "styled-components";
-import { Editor } from 'draft-js';
+import { EditorState } from 'draft-js';
 
 const { useState } = React;
 
 const ColorBoxStyle = css`
   width: 30px;
   height: 30px;
-  box-shadow: 0 0 5px #aaa;
   border-radius: 15px;
 `;
 
@@ -18,6 +17,7 @@ const ColorBoxContainer = styled.div`
 
 const ColorBox = styled.div`
   ${ColorBoxStyle}
+  box-shadow: 0 0 5px #aaa;
 `;
 
 const showModal = keyframes`
@@ -36,7 +36,7 @@ const ColorModal = styled.div`
   align-items: center;
   position: absolute;
   top: 40px;
-  left: 0;
+  right: -20px;
   width: 160px;
   height: 210px;
   background-color: #fff;
@@ -58,8 +58,8 @@ const Colors = [
 ];
 
 interface ColorButtonProps {
-  editorState?: Editor;
-  setEditorState?: (editor?: React.SetStateAction<Editor>) => void;
+  editorState?: EditorState;
+  setEditorState?: (editor?: EditorState) => void;
 }
 
 const ColorButton: React.FC<ColorButtonProps> = () => {
