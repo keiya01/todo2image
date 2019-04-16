@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import StylingButton from '../molecules/StylingButton';
-import { Editor, EditorState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import ColorButton from '../molecules/ColorButton';
 
 const Header = styled.div`

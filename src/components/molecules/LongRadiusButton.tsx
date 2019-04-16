@@ -47,7 +47,7 @@ const LongRadiusButton: React.FC<LongRadiusButtonProps> = ({ text, onClick, css 
     clickCircleAnimation(clickAnimation.current, { x: pageX, y: pageY });
     setTimeout(() => {
       onClick && onClick();
-    }, 250);
+    }, 100);
   }
 
   return (
