@@ -2,22 +2,21 @@ import * as React from "react";
 import styled from "styled-components";
 import { EditorState, RichUtils } from 'draft-js';
 
+const { useState } = React;
+
 const Button = styled.button`
   font-size: 16px;
   color: #fff;
   letter-spacing: 0.05em;
   background-color: transparent;
   border: none;
-  &:active {
-    opacity: 0.7;
-  }
 `;
 
 interface StylingButtonProps {
   label: string;
   font: "BOLD" | "ITALIC";
   editorState?: EditorState;
-  setEditorState?: (editorState?: EditorState) => void;
+  setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
 }
 
 const getFontStyle = (font: "BOLD" | "ITALIC"): React.CSSProperties => {
@@ -27,18 +26,21 @@ const getFontStyle = (font: "BOLD" | "ITALIC"): React.CSSProperties => {
   }
 }
 
-const StylingButton: React.FC<StylingButtonProps> = ({ label, font, editorState, setEditorState}) => {
+const StylingButton: React.FC<StylingButtonProps> = ({ label, font, editorState, setEditorState }) => {
   const fontStyle = getFontStyle(font);
+  const [isActive, setIsActive] = useState(false);
 
-  const handleOnClick = () => {
-    if(!editorState || !setEditorState) {
+  const handleOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    if (!editorState || !setEditorState) {
       return;
     }
+    setIsActive(prevState => !prevState);
     setEditorState(RichUtils.toggleInlineStyle(editorState, font));
   }
-  
+
   return (
-    <Button style={fontStyle} onClick={handleOnClick}>
+    <Button style={{...fontStyle, opacity: isActive ? 0.3 : 1 }} onMouseDown={handleOnClick}>
       {label}
     </Button>
   );

@@ -59,7 +59,7 @@ const Colors = [
 
 interface ColorButtonProps {
   editorState?: EditorState;
-  setEditorState?: (editor?: EditorState) => void;
+  setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
 }
 
 const ColorButton: React.FC<ColorButtonProps> = () => {
@@ -70,7 +70,8 @@ const ColorButton: React.FC<ColorButtonProps> = () => {
     setVisible(prevState => !prevState);
   }
 
-  const handleChangeColor = (color: string) => () => {
+  const handleChangeColor = (color: string) => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
     setSelectedColor(color);
   }
 
@@ -78,7 +79,7 @@ const ColorButton: React.FC<ColorButtonProps> = () => {
     <ColorBoxContainer onClick={handleShowModal} style={{ backgroundColor: selectedColor }}>
       <ColorModal style={{ display: visible ? "flex" : "none" }}>
         {Colors.map(color => (
-          <ColorBox onClick={handleChangeColor(color)} style={{ backgroundColor: color, margin: "0 10px" }} />
+          <ColorBox key={color} onMouseDown={handleChangeColor(color)} style={{ backgroundColor: color, margin: "0 10px" }} />
         ))}
       </ColorModal>
     </ColorBoxContainer>

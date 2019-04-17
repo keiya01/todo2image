@@ -33,9 +33,7 @@ a:active{
 	border: none;
 }
 
-/* Draft.js styling */
-.DraftEditor-editorContainer {
-  text-align: center;
-  letter-spacing: 0.05em;
-  line-height: 1.5;
+/* draft.js styling */
+.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
 }
