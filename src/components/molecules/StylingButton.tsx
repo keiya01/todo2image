@@ -8,6 +8,9 @@ const Button = styled.button`
   letter-spacing: 0.05em;
   background-color: transparent;
   border: none;
+  &:active {
+    opacity: 0.7;
+  }
 `;
 
 interface StylingButtonProps {

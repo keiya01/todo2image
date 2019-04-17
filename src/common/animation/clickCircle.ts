@@ -30,7 +30,7 @@ const drawCircle = ($canvas: HTMLCanvasElement, clickPosition: { x: number, y: n
   
   ctx.beginPath();
   ctx.arc(clickPosition.x, clickPosition.y, size, 0, 2 * Math.PI);
-  ctx.fillStyle = "rgba(255, 255, 255, 0.3)"
+  ctx.fillStyle = "rgba(255, 255, 255, 0.2)"
   ctx.fill();
 
   requestAnimationFrame(drawCircle($canvas, clickPosition, size + 60));
