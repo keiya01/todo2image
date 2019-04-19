@@ -4,7 +4,7 @@ import { EditorState, Editor } from "draft-js";
 import EditorHeader from "../organisms/EditorHeader";
 import "draft-js/dist/Draft.css";
 
-const { useState, useRef } = React;
+const { useState, useRef, useReducer } = React;
 
 const Container = styled.div`
   display: flex;
@@ -16,9 +16,37 @@ const Container = styled.div`
   cursor: text;
 `;
 
+interface State {
+  isShowHeader: boolean;
+  textColor: string;
+}
+
+const initialState = {
+  isShowHeader: false,
+  textColor: "",
+}
+
+interface Action {
+  type: string;
+  isShowHeader: boolean;
+}
+
+const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case "TOGGLE_HEADER": {
+      return {
+        ...state,
+        isShowHeader: action.isShowHeader,
+      }
+    }
+    default:
+      return state
+  }
+}
+
 const CreateImageArea: React.FC = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [isShowHeader, setIsShowHeader] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const editor: React.RefObject<Editor> | null = useRef(null);
 
   const handleOnChange = (editorState: EditorState) => {
@@ -30,21 +58,21 @@ const CreateImageArea: React.FC = () => {
       return;
     }
 
-    setIsShowHeader(true);
+    dispatch({type: "TOGGLE_HEADER", isShowHeader: true});
     editor.current.focus();
   }
 
   const currentEditorState = editorState.getCurrentContent();
   let styledEditorClassName = "";
-  if(!currentEditorState.hasText()) {
-    if(currentEditorState.getBlockMap().first().getType() !== "unstyled") {
+  if (!currentEditorState.hasText()) {
+    if (currentEditorState.getBlockMap().first().getType() !== "unstyled") {
       styledEditorClassName = "RichEditor-hidePlaceholder";
     }
   }
 
   return (
     <Container onClick={handleOnClickFocus}>
-      <EditorHeader editorState={editorState} setEditorState={setEditorState} visible={isShowHeader} />
+      <EditorHeader editorState={editorState} setEditorState={setEditorState} visible={state.isShowHeader} />
       <div className={styledEditorClassName}>
         <Editor
           ref={editor}
