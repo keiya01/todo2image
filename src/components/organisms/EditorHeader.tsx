@@ -1,7 +1,6 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
 import StylingButton from '../molecules/StylingButton';
-import { EditorState } from 'draft-js';
 import ColorButton from '../molecules/ColorButton';
 
 const HeaderHeight = 40;
@@ -32,17 +31,15 @@ const Header = styled.div`
 `;
 
 interface EditorHeaderProps {
-  editorState?: EditorState;
-  setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
   visible: boolean;
 }
 
-const EditorHeader: React.FC<EditorHeaderProps> = ({ editorState, setEditorState, visible }) => {
+const EditorHeader: React.FC<EditorHeaderProps> = ({ visible }) => {
   return (
     <Header style={{ display: visible ? "flex" : "none" }}>
-      <StylingButton label="bold" font="BOLD" editorState={editorState} setEditorState={setEditorState} />
-      <StylingButton label="italic" font="ITALIC" editorState={editorState} setEditorState={setEditorState} />
-      <ColorButton editorState={editorState} setEditorState={setEditorState} />
+      <StylingButton label="bold" font="BOLD" />
+      <StylingButton label="italic" font="ITALIC" />
+      <ColorButton />
     </Header>
   );
 };

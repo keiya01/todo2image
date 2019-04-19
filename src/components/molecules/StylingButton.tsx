@@ -1,8 +1,9 @@
 import * as React from "react";
 import styled from "styled-components";
-import { EditorState, RichUtils } from 'draft-js';
+import { RichUtils } from 'draft-js';
+import { EditorContext } from "../pages/CreateImageArea";
 
-const { useState } = React;
+const { useContext } = React;
 
 const Button = styled.button`
   font-size: 16px;
@@ -15,8 +16,6 @@ const Button = styled.button`
 interface StylingButtonProps {
   label: string;
   font: "BOLD" | "ITALIC";
-  editorState?: EditorState;
-  setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
 }
 
 const getFontStyle = (font: "BOLD" | "ITALIC"): React.CSSProperties => {
@@ -26,21 +25,21 @@ const getFontStyle = (font: "BOLD" | "ITALIC"): React.CSSProperties => {
   }
 }
 
-const StylingButton: React.FC<StylingButtonProps> = ({ label, font, editorState, setEditorState }) => {
+const StylingButton: React.FC<StylingButtonProps> = ({ label, font }) => {
   const fontStyle = getFontStyle(font);
-  const [isActive, setIsActive] = useState(false);
+  const { editorState, setEditorState } = useContext(EditorContext);
 
   const handleOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
     if (!editorState || !setEditorState) {
       return;
     }
-    setIsActive(prevState => !prevState);
     setEditorState(RichUtils.toggleInlineStyle(editorState, font));
+    
+    e.preventDefault();
   }
 
   return (
-    <Button style={{...fontStyle, opacity: isActive ? 0.3 : 1 }} onMouseDown={handleOnClick}>
+    <Button style={fontStyle} onMouseDown={handleOnClick}>
       {label}
     </Button>
   );

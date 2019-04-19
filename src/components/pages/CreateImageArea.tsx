@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { EditorState, Editor } from "draft-js";
 import EditorHeader from "../organisms/EditorHeader";
+import { CustomStyleColor } from "../molecules/ColorButton";
 import "draft-js/dist/Draft.css";
 
 const { useState, useRef, useReducer } = React;
@@ -28,7 +29,7 @@ const initialState = {
 
 interface Action {
   type: string;
-  isShowHeader: boolean;
+  isShowHeader?: boolean;
 }
 
 const reducer = (state: State, action: Action) => {
@@ -36,7 +37,7 @@ const reducer = (state: State, action: Action) => {
     case "TOGGLE_HEADER": {
       return {
         ...state,
-        isShowHeader: action.isShowHeader,
+        isShowHeader: action.isShowHeader || false,
       }
     }
     default:
@@ -44,10 +45,22 @@ const reducer = (state: State, action: Action) => {
   }
 }
 
+interface EditorContextProps {
+  editorState?: EditorState;
+  setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
+}
+
+export const EditorContext = React.createContext<EditorContextProps>({});
+
+export const CustomStyleMap = {
+  ...CustomStyleColor,
+};
+
 const CreateImageArea: React.FC = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [state, dispatch] = useReducer(reducer, initialState);
   const editor: React.RefObject<Editor> | null = useRef(null);
+  const { isShowHeader } = state;
 
   const handleOnChange = (editorState: EditorState) => {
     setEditorState(editorState);
@@ -58,7 +71,7 @@ const CreateImageArea: React.FC = () => {
       return;
     }
 
-    dispatch({type: "TOGGLE_HEADER", isShowHeader: true});
+    dispatch({ type: "TOGGLE_HEADER", isShowHeader: true });
     editor.current.focus();
   }
 
@@ -70,19 +83,27 @@ const CreateImageArea: React.FC = () => {
     }
   }
 
+  const editorContextProps = {
+    editorState,
+    setEditorState,
+  }
+
   return (
-    <Container onClick={handleOnClickFocus}>
-      <EditorHeader editorState={editorState} setEditorState={setEditorState} visible={state.isShowHeader} />
-      <div className={styledEditorClassName}>
-        <Editor
-          ref={editor}
-          editorState={editorState}
-          onChange={handleOnChange}
-          textAlignment="center"
-          placeholder="TODOを入力"
-        />
-      </div>
-    </Container>
+    <EditorContext.Provider value={editorContextProps}>
+      <Container onClick={handleOnClickFocus}>
+        <EditorHeader visible={isShowHeader} />
+        <div className={styledEditorClassName}>
+          <Editor
+            ref={editor}
+            customStyleMap={CustomStyleMap}
+            editorState={editorState}
+            onChange={handleOnChange}
+            textAlignment="center"
+            placeholder="TODOを入力"
+          />
+        </div>
+      </Container>
+    </EditorContext.Provider>
   )
 };
 

@@ -1,8 +1,9 @@
 import * as React from "react";
 import styled, { css, keyframes } from "styled-components";
-import { EditorState } from 'draft-js';
+import { EditorState, RichUtils, Modifier } from 'draft-js';
+import { EditorContext } from "../pages/CreateImageArea";
 
-const { useState } = React;
+const { useState, useContext } = React;
 
 const ColorBoxStyle = css`
   width: 30px;
@@ -45,17 +46,35 @@ const ColorModal = styled.div`
   animation: ${showModal} 200ms ease-in;
 `;
 
-const Colors = [
-  "#ff0000",
-  "#fc7100",
-  "#00fc08",
-  "#0025fc",
-  "#fc00d6",
-  "#ff3f86",
-  "#000000",
-  "#999999",
-  "#dddddd",
-];
+export const CustomStyleColor = {
+  COLOR1: {
+    color: "#ff0000"
+  },
+  COLOR2: {
+    color: "#fc7100"
+  },
+  COLOR3: {
+    color: "#00fc08"
+  },
+  COLOR4: {
+    color: "#0025fc"
+  },
+  COLOR5: {
+    color: "#fc00d6"
+  },
+  COLOR6: {
+    color: "#ff3f86"
+  },
+  COLOR7: {
+    color: "#000000"
+  },
+  COLOR8: {
+    color: "#999999"
+  },
+  COLOR9: {
+    color: "#dddddd"
+  },
+}
 
 interface ColorButtonProps {
   editorState?: EditorState;
@@ -65,21 +84,61 @@ interface ColorButtonProps {
 const ColorButton: React.FC<ColorButtonProps> = () => {
   const [selectedColor, setSelectedColor] = useState("#ffffff");
   const [visible, setVisible] = useState(false);
+  const { editorState, setEditorState } = useContext(EditorContext);
 
   const handleShowModal = () => {
     setVisible(prevState => !prevState);
   }
 
-  const handleChangeColor = (color: string) => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleChangeColor = (colorKey: string) => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!editorState || !setEditorState) {
+      return;
+    }
+
+    const selection = editorState.getSelection();
+
+    const nextContentState = Object.keys(CustomStyleColor).reduce((contentState, color) => {
+      return Modifier.removeInlineStyle(contentState, selection, color);
+    }, editorState.getCurrentContent());
+
+    let nextEditorState = EditorState.push(
+      editorState,
+      nextContentState,
+      "change-inline-style"
+    );
+
+    const currentInlineStyle = editorState.getCurrentInlineStyle();
+
+    // if (selection.isCollapsed()) {
+    //   nextEditorState = currentInlineStyle.reduce((contentState, color) => {
+    //     if(!contentState || !color) {
+    //       return nextEditorState;
+    //     }
+
+    //     return RichUtils.toggleInlineStyle(contentState, color);
+    //   }, nextEditorState);
+    // }
+
+    if (!currentInlineStyle.has(colorKey)) {
+      nextEditorState = RichUtils.toggleInlineStyle(nextEditorState, colorKey);
+    }
+
+    setSelectedColor(CustomStyleColor[colorKey].color);
+
+    setEditorState(nextEditorState);
+
     e.preventDefault();
-    setSelectedColor(color);
   }
 
   return (
     <ColorBoxContainer onClick={handleShowModal} style={{ backgroundColor: selectedColor }}>
       <ColorModal style={{ display: visible ? "flex" : "none" }}>
-        {Colors.map(color => (
-          <ColorBox key={color} onMouseDown={handleChangeColor(color)} style={{ backgroundColor: color, margin: "0 10px" }} />
+        {Object.keys(CustomStyleColor).map(colorKey => (
+          <ColorBox
+            key={colorKey}
+            onMouseDown={handleChangeColor(colorKey)}
+            style={{ backgroundColor: CustomStyleColor[colorKey].color, margin: "0 10px" }}
+          />
         ))}
       </ColorModal>
     </ColorBoxContainer>
