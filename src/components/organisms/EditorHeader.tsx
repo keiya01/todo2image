@@ -37,14 +37,17 @@ interface EditorHeaderProps {
 }
 
 const EditorHeader: React.FC<EditorHeaderProps> = ({ visible }) => {
+  console.log("Render Header");
   return (
     <Header style={{ display: visible ? "flex" : "none" }}>
       <StylingButton label="bold" font="BOLD" />
       <StylingButton label="italic" font="ITALIC" />
-      <AdjustSizeButton/>
+      <AdjustSizeButton />
       <ColorButton />
     </Header>
   );
 };
 
-export default EditorHeader;
+export default React.memo(EditorHeader, (prevProps,nextProps) => {
+  return prevProps.visible === nextProps.visible;
+});

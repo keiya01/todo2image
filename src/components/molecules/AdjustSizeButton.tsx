@@ -5,7 +5,7 @@ import { EditorContext } from "../pages/CreateImageArea";
 import { HeaderButton } from "../atoms/button";
 import { fadeIn } from "../../common/animation/fadeIn";
 
-const { useContext } = React;
+const { useState, useContext } = React;
 
 const ButtonContainer = styled.div`
   display: inline-block;
@@ -38,6 +38,7 @@ const SizeSelectItem = styled.p`
 
 const AdjustSizeButton: React.FC = () => {
   const { editorState, setEditorState, visibleModals, handleOnToggleModal } = useContext(EditorContext);
+  const [activeBlockType, setActiveBlockType] = useState("");
 
   const handleOnToggleSizeModal = () => {
     if (!visibleModals || !handleOnToggleModal) {
@@ -52,6 +53,11 @@ const AdjustSizeButton: React.FC = () => {
       return;
     }
 
+    if (activeBlockType !== "" && activeBlockType === blockType) {
+      setActiveBlockType("");
+    } else {
+      setActiveBlockType(blockType);
+    }
     setEditorState(RichUtils.toggleBlockType(editorState, blockType));
 
     e.preventDefault();
@@ -65,13 +71,23 @@ const AdjustSizeButton: React.FC = () => {
 
   return (
     <ButtonContainer onClick={handleOnToggleSizeModal}>
-      <HeaderButton>size</HeaderButton>
+      <HeaderButton
+        style={{ opacity: activeBlockType !== "" ? 0.5 : 1 }}
+      >
+        size
+      </HeaderButton>
       <SizeSelect
-        style={{display: visibleModals && visibleModals.sizeModal ? "flex" : "none"}}
+        style={{ display: visibleModals && visibleModals.sizeModal ? "flex" : "none" }}
       >
         {Object.keys(sizeStyles).map(blockType => (
-        <SizeSelectItem onMouseDown={handleOnChangeFontSize(blockType)}>{sizeStyles[blockType]}</SizeSelectItem>
-      ))}
+          <SizeSelectItem
+            key={blockType}
+            style={{ opacity: activeBlockType === blockType ? 0.5 : 1 }}
+            onMouseDown={handleOnChangeFontSize(blockType)}
+          >
+            {sizeStyles[blockType]}
+          </SizeSelectItem>
+        ))}
       </SizeSelect>
     </ButtonContainer >
   )
