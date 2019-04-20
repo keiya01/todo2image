@@ -74,7 +74,7 @@ interface ColorButtonProps {
 }
 
 const ColorButton: React.FC<ColorButtonProps> = () => {
-  const [selectedColor, setSelectedColor] = useState("#ffffff");
+  const [selectedColor, setSelectedColor] = useState("#000000");
   const { editorState, setEditorState, visibleModals, handleOnToggleModal } = useContext(EditorContext);
 
   const handleShowModal = () => {
