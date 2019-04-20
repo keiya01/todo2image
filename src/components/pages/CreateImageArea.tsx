@@ -110,14 +110,6 @@ const CreateImageArea: React.FC = () => {
     editor.current.focus();
   }
 
-  const currentEditorState = editorState.getCurrentContent();
-  let styledEditorClassName = "";
-  if (!currentEditorState.hasText()) {
-    if (currentEditorState.getBlockMap().first().getType() !== "unstyled") {
-      styledEditorClassName = "RichEditor-hidePlaceholder";
-    }
-  }
-
   const handleOnToggleModal = (action: ToggleModalFunc) => {
     dispatch(action);
   }
@@ -133,7 +125,7 @@ const CreateImageArea: React.FC = () => {
     <EditorContext.Provider value={editorContextProps}>
       <Container onClick={handleOnClickFocus}>
         <EditorHeader visible={isShowHeader} />
-        <div className={styledEditorClassName}>
+        <div>
           <Editor
             ref={editor}
             customStyleMap={CustomStyleMap}

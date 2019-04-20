@@ -32,8 +32,3 @@ a:hover{
 a:active{
 	border: none;
 }
-
-/* draft.js styling */
-.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
-  display: none;
-}
