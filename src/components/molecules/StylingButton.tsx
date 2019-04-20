@@ -1,17 +1,9 @@
 import * as React from "react";
-import styled from "styled-components";
 import { RichUtils } from 'draft-js';
 import { EditorContext } from "../pages/CreateImageArea";
+import { HeaderButton } from "../atoms/button";
 
-const { useContext } = React;
-
-const Button = styled.button`
-  font-size: 16px;
-  color: #fff;
-  letter-spacing: 0.05em;
-  background-color: transparent;
-  border: none;
-`;
+const { useState, useContext } = React;
 
 interface StylingButtonProps {
   label: string;
@@ -27,21 +19,30 @@ const getFontStyle = (font: "BOLD" | "ITALIC"): React.CSSProperties => {
 
 const StylingButton: React.FC<StylingButtonProps> = ({ label, font }) => {
   const fontStyle = getFontStyle(font);
+  const [isActive, setIsActive] = useState(false);
   const { editorState, setEditorState } = useContext(EditorContext);
 
   const handleOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (!editorState || !setEditorState) {
       return;
     }
+
+    const currentInlineStyle = editorState.getCurrentInlineStyle();
+    if(currentInlineStyle.has(font)) {
+      setIsActive(false);
+    }else {
+      setIsActive(true);
+    }
+    
     setEditorState(RichUtils.toggleInlineStyle(editorState, font));
     
     e.preventDefault();
   }
 
   return (
-    <Button style={fontStyle} onMouseDown={handleOnClick}>
+    <HeaderButton style={{...fontStyle, opacity: isActive ? 0.5 : 1}} onMouseDown={handleOnClick}>
       {label}
-    </Button>
+    </HeaderButton>
   );
 };
 

@@ -28,6 +28,7 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-around;
   animation: ${SlideIn} 300ms ease-in;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
 `;
 
 interface EditorHeaderProps {
