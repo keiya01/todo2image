@@ -108,16 +108,7 @@ const ColorButton: React.FC<ColorButtonProps> = () => {
     );
 
     const currentInlineStyle = editorState.getCurrentInlineStyle();
-
-    // if (selection.isCollapsed()) {
-    //   nextEditorState = currentInlineStyle.reduce((contentState, color) => {
-    //     if(!contentState || !color) {
-    //       return nextEditorState;
-    //     }
-
-    //     return RichUtils.toggleInlineStyle(contentState, color);
-    //   }, nextEditorState);
-    // }
+    const nextInlineStyle = nextEditorState.getCurrentInlineStyle();
 
     if (!currentInlineStyle.has(colorKey)) {
       nextEditorState = RichUtils.toggleInlineStyle(nextEditorState, colorKey);
