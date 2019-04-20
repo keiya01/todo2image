@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 import { EditorState, RichUtils, Modifier } from 'draft-js';
 import { EditorContext } from "../pages/CreateImageArea";
 import { fadeIn } from "../../common/animation/fadeIn";

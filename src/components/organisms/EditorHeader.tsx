@@ -1,19 +1,10 @@
 import * as React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import StylingButton from '../molecules/StylingButton';
 import ColorButton from '../molecules/ColorButton';
 import AdjustSizeButton from '../molecules/AdjustSizeButton';
 
 const HeaderHeight = 40;
-
-const SlideIn = keyframes`
-  from {
-    transform: translateY(-${HeaderHeight}px);
-  }
-  to {
-    transform: translateY(0px);
-  }
-`;
 
 const Header = styled.div`
   position: fixed;
@@ -28,17 +19,12 @@ const Header = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  animation: ${SlideIn} 300ms ease-in;
   box-shadow: 0 1px 8px #777;
 `;
 
-interface EditorHeaderProps {
-  visible: boolean;
-}
-
-const EditorHeader: React.FC<EditorHeaderProps> = ({ visible }) => {
+const EditorHeader: React.FC = () => {
   return (
-    <Header style={{ display: visible ? "flex" : "none" }}>
+    <Header>
       <StylingButton label="bold" font="BOLD" />
       <StylingButton label="italic" font="ITALIC" />
       <AdjustSizeButton />
@@ -47,6 +33,4 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({ visible }) => {
   );
 };
 
-export default React.memo(EditorHeader, (prevProps,nextProps) => {
-  return prevProps.visible === nextProps.visible;
-});
+export default React.memo(EditorHeader, () => true);

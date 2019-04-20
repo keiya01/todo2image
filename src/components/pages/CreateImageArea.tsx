@@ -23,13 +23,11 @@ interface VisibleModals {
 }
 
 interface State {
-  isShowHeader: boolean;
   textColor: string;
   visibleModals: VisibleModals;
 }
 
 const initialState = {
-  isShowHeader: false,
   textColor: "",
   visibleModals: {
     colorModal: false,
@@ -44,12 +42,6 @@ interface Action {
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case "TOGGLE_HEADER": {
-      return {
-        ...state,
-        isShowHeader: action.visible || false,
-      }
-    }
     case "TOGGLE_COLOR_MODAL": {
       return {
         ...state,
@@ -95,7 +87,7 @@ const CreateImageArea: React.FC = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [state, dispatch] = useReducer(reducer, initialState);
   const editor: React.RefObject<Editor> | null = useRef(null);
-  const { isShowHeader, visibleModals } = state;
+  const { visibleModals } = state;
 
   const handleOnChange = (editorState: EditorState) => {
     setEditorState(editorState);
@@ -124,7 +116,7 @@ const CreateImageArea: React.FC = () => {
   return (
     <EditorContext.Provider value={editorContextProps}>
       <Container onClick={handleOnClickFocus}>
-        <EditorHeader visible={isShowHeader} />
+        <EditorHeader />
         <div>
           <Editor
             ref={editor}
