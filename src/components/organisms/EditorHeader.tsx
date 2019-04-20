@@ -37,7 +37,6 @@ interface EditorHeaderProps {
 }
 
 const EditorHeader: React.FC<EditorHeaderProps> = ({ visible }) => {
-  console.log("Render Header");
   return (
     <Header style={{ display: visible ? "flex" : "none" }}>
       <StylingButton label="bold" font="BOLD" />
