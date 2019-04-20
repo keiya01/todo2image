@@ -17,19 +17,29 @@ const Container = styled.div`
   cursor: text;
 `;
 
+interface VisibleModals {
+  colorModal: boolean;
+  sizeModal: boolean;
+}
+
 interface State {
   isShowHeader: boolean;
   textColor: string;
+  visibleModals: VisibleModals;
 }
 
 const initialState = {
   isShowHeader: false,
   textColor: "",
+  visibleModals: {
+    colorModal: false,
+    sizeModal: false,
+  }
 }
 
 interface Action {
   type: string;
-  isShowHeader?: boolean;
+  visible?: boolean;
 }
 
 const reducer = (state: State, action: Action) => {
@@ -37,7 +47,25 @@ const reducer = (state: State, action: Action) => {
     case "TOGGLE_HEADER": {
       return {
         ...state,
-        isShowHeader: action.isShowHeader || false,
+        isShowHeader: action.visible || false,
+      }
+    }
+    case "TOGGLE_COLOR_MODAL": {
+      return {
+        ...state,
+        visibleModals: {
+          sizeModal: false,
+          colorModal: action.visible || false,
+        }
+      }
+    }
+    case "TOGGLE_SIZE_MODAL": {
+      return {
+        ...state,
+        visibleModals: {
+          colorModal: false,
+          sizeModal: action.visible || false,
+        }
       }
     }
     default:
@@ -45,14 +73,21 @@ const reducer = (state: State, action: Action) => {
   }
 }
 
+interface ToggleModalFunc {
+  type: "TOGGLE_COLOR_MODAL" | "TOGGLE_SIZE_MODAL";
+  visible: boolean;
+}
+
 interface EditorContextProps {
   editorState?: EditorState;
   setEditorState?: React.Dispatch<React.SetStateAction<EditorState>>;
+  visibleModals?: VisibleModals;
+  handleOnToggleModal?: (action: ToggleModalFunc) => void;
 }
 
 export const EditorContext = React.createContext<EditorContextProps>({});
 
-export const CustomStyleMap = {
+const CustomStyleMap = {
   ...CustomStyleColor,
 };
 
@@ -60,7 +95,7 @@ const CreateImageArea: React.FC = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [state, dispatch] = useReducer(reducer, initialState);
   const editor: React.RefObject<Editor> | null = useRef(null);
-  const { isShowHeader } = state;
+  const { isShowHeader, visibleModals } = state;
 
   const handleOnChange = (editorState: EditorState) => {
     setEditorState(editorState);
@@ -71,7 +106,7 @@ const CreateImageArea: React.FC = () => {
       return;
     }
 
-    dispatch({ type: "TOGGLE_HEADER", isShowHeader: true });
+    dispatch({ type: "TOGGLE_HEADER", visible: true });
     editor.current.focus();
   }
 
@@ -83,9 +118,15 @@ const CreateImageArea: React.FC = () => {
     }
   }
 
+  const handleOnToggleModal = (action: ToggleModalFunc) => {
+    dispatch(action);
+  }
+
   const editorContextProps = {
     editorState,
     setEditorState,
+    visibleModals,
+    handleOnToggleModal
   }
 
   return (

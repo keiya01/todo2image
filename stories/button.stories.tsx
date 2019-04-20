@@ -5,6 +5,7 @@ import "../src/index.css";
 import LongRadiusButton from "../src/components/molecules/LongRadiusButton";
 import StylingButton from '../src/components/molecules/StylingButton';
 import ColorButton from '../src/components/molecules/ColorButton';
+import AdjustSizeButton from '../src/components/molecules/AdjustSizeButton';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -31,5 +32,10 @@ storiesOf('Button', module)
   .add('ColorButton', () => (
     <ButtonContainer>
       <ColorButton />
+    </ButtonContainer>
+  ))
+  .add('AdjustSizeButton', () => (
+    <ButtonContainer>
+      <AdjustSizeButton/>
     </ButtonContainer>
   ));

@@ -2,6 +2,7 @@ import * as React from "react";
 import styled, { css, keyframes } from "styled-components";
 import { EditorState, RichUtils, Modifier } from 'draft-js';
 import { EditorContext } from "../pages/CreateImageArea";
+import { fadeIn } from "../../common/animation/fadeIn";
 
 const { useState, useContext } = React;
 
@@ -21,15 +22,6 @@ const ColorBox = styled.div`
   box-shadow: 0 0 5px #aaa;
 `;
 
-const showModal = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
 const ColorModal = styled.div`
   display: flex;
   flex-direction: row;
@@ -43,7 +35,7 @@ const ColorModal = styled.div`
   background-color: #fff;
   box-shadow: 1px 2px 5px #aaa;
   padding: 10px 5px;
-  animation: ${showModal} 200ms ease-in;
+  animation: ${fadeIn} 200ms ease-in;
 `;
 
 export const CustomStyleColor = {
@@ -83,11 +75,14 @@ interface ColorButtonProps {
 
 const ColorButton: React.FC<ColorButtonProps> = () => {
   const [selectedColor, setSelectedColor] = useState("#ffffff");
-  const [visible, setVisible] = useState(false);
-  const { editorState, setEditorState } = useContext(EditorContext);
+  const { editorState, setEditorState, visibleModals, handleOnToggleModal } = useContext(EditorContext);
 
   const handleShowModal = () => {
-    setVisible(prevState => !prevState);
+    if (!visibleModals || !handleOnToggleModal) {
+      return
+    }
+
+    handleOnToggleModal({ type: "TOGGLE_COLOR_MODAL", visible: !visibleModals.colorModal });
   }
 
   const handleChangeColor = (colorKey: string) => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -122,7 +117,9 @@ const ColorButton: React.FC<ColorButtonProps> = () => {
 
   return (
     <ColorBoxContainer onClick={handleShowModal} style={{ backgroundColor: selectedColor }}>
-      <ColorModal style={{ display: visible ? "flex" : "none" }}>
+      <ColorModal
+        style={{ display: visibleModals && visibleModals.colorModal ? "flex" : "none" }}
+      >
         {Object.keys(CustomStyleColor).map(colorKey => (
           <ColorBox
             key={colorKey}

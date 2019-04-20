@@ -2,6 +2,7 @@ import * as React from "react";
 import styled, { keyframes } from "styled-components";
 import StylingButton from '../molecules/StylingButton';
 import ColorButton from '../molecules/ColorButton';
+import AdjustSizeButton from '../molecules/AdjustSizeButton';
 
 const HeaderHeight = 40;
 
@@ -28,7 +29,7 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-around;
   animation: ${SlideIn} 300ms ease-in;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 8px #777;
 `;
 
 interface EditorHeaderProps {
@@ -40,6 +41,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({ visible }) => {
     <Header style={{ display: visible ? "flex" : "none" }}>
       <StylingButton label="bold" font="BOLD" />
       <StylingButton label="italic" font="ITALIC" />
+      <AdjustSizeButton/>
       <ColorButton />
     </Header>
   );
