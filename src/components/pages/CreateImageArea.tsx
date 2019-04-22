@@ -4,10 +4,16 @@ import { EditorState, Editor } from "draft-js";
 import EditorHeader from "../organisms/EditorHeader";
 import { CustomStyleColor } from "../molecules/ColorButton";
 import "draft-js/dist/Draft.css";
+import SaveImageButton from '../molecules/SaveImageButton';
 
-const { useState, useRef, useReducer } = React;
+const { useState, useRef, useReducer, useLayoutEffect } = React;
 
 const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,19 +93,17 @@ const CreateImageArea: React.FC = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [state, dispatch] = useReducer(reducer, initialState);
   const editor: React.RefObject<Editor> | null = useRef(null);
+  const editorImage: React.RefObject<HTMLDivElement> | null = useRef(null);
   const { visibleModals } = state;
+
+  useLayoutEffect(() => {
+    if (editor.current) {
+      editor.current.focus();
+    }
+  });
 
   const handleOnChange = (editorState: EditorState) => {
     setEditorState(editorState);
-  }
-
-  const handleOnClickFocus = () => {
-    if (!editor.current) {
-      return;
-    }
-
-    dispatch({ type: "TOGGLE_HEADER", visible: true });
-    editor.current.focus();
   }
 
   const handleOnToggleModal = (action: ToggleModalFunc) => {
@@ -115,19 +119,22 @@ const CreateImageArea: React.FC = () => {
 
   return (
     <EditorContext.Provider value={editorContextProps}>
-      <Container onClick={handleOnClickFocus}>
+      <Container>
         <EditorHeader />
-        <div>
-          <Editor
-            ref={editor}
-            customStyleMap={CustomStyleMap}
-            editorState={editorState}
-            onChange={handleOnChange}
-            textAlignment="center"
-            placeholder="TODOを入力"
-          />
-        </div>
+        <Wrapper ref={editorImage}>
+          <div>
+            <Editor
+              ref={editor}
+              customStyleMap={CustomStyleMap}
+              editorState={editorState}
+              onChange={handleOnChange}
+              textAlignment="center"
+              placeholder="TODOを入力"
+            />
+          </div>
+        </Wrapper>
       </Container>
+      <SaveImageButton toImageElement={editorImage.current} />
     </EditorContext.Provider>
   )
 };
