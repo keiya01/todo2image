@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { fadeIn } from "../../common/animation/fadeIn";
 import { MainColor } from "../atoms/color";
 import LongRadiusButton from "../molecules/LongRadiusButton";
@@ -24,6 +24,24 @@ const Button = styled.button`
   animation: ${fadeIn} 200ms ease-in;
 `;
 
+const scaleAnimation = keyframes`
+  0% {
+    transform: translateY(-100%);
+  }
+  30% {
+    transform: translateY(5%);
+  }
+  60% {
+    transform: translateY(0%);
+  }
+  80% {
+    transform: translateY(1%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
 const ImageModalContainer = styled.div`
   position: absolute;
   top: 0;
@@ -46,6 +64,7 @@ const ImageModal = styled.div`
   background-color: #fff;
   text-align: center;
   border-radius: 5px;
+  animation: ${scaleAnimation} 500ms ease-out;
 `;
 
 const SavedImage = styled.img`
@@ -95,8 +114,11 @@ const SaveImageButton: React.FC<SaveImageButtonProps> = ({ toImageElement }) => 
   return (
     <>
       <Button onClick={handleOnSaveImage}>保存</Button>
-        <ImageModalContainer style={{display: isVisibleModal ? "flex" : "none"}}>
-          <ImageModal>
+      {
+        isVisibleModal
+        &&
+        <ImageModalContainer>
+          <ImageModal style={{display: isVisibleModal ? "flex" : "none"}}>
             <div>
               <SavedImage src={savedImage.current} />
               <Description>画像を長押すると保存できます</Description>
@@ -104,6 +126,7 @@ const SaveImageButton: React.FC<SaveImageButtonProps> = ({ toImageElement }) => 
             </div>
           </ImageModal>
         </ImageModalContainer>
+      }
     </>
   )
 };
