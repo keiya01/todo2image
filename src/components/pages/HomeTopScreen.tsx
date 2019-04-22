@@ -16,8 +16,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${window.innerWidth - 30}px;
-  height: ${window.innerHeight - 30}px;
+  width: 90%;
+  height: 95%;
   background-color: ${MainColor};
   box-shadow: 0 0 10px #aaa;
 `;
