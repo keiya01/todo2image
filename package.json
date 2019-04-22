@@ -25,6 +25,7 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "storybook": "start-storybook",
+    "deploy": "yarn run build && firebase deploy",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
