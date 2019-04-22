@@ -6,7 +6,7 @@ import { CustomStyleColor } from "../molecules/ColorButton";
 import "draft-js/dist/Draft.css";
 import SaveImageButton from '../molecules/SaveImageButton';
 
-const { useState, useRef, useReducer, useLayoutEffect } = React;
+const { useState, useRef, useReducer } = React;
 
 const Container = styled.div`
   width: 100%;
@@ -96,14 +96,16 @@ const CreateImageArea: React.FC = () => {
   const editorImage: React.RefObject<HTMLDivElement> | null = useRef(null);
   const { visibleModals } = state;
 
-  useLayoutEffect(() => {
-    if (editor.current) {
-      editor.current.focus();
-    }
-  });
-
   const handleOnChange = (editorState: EditorState) => {
     setEditorState(editorState);
+  }
+
+  const handleOnClickFocus = () => {
+    if (!editor.current) {
+      return;
+    }
+
+    editor.current.focus();
   }
 
   const handleOnToggleModal = (action: ToggleModalFunc) => {
@@ -119,8 +121,8 @@ const CreateImageArea: React.FC = () => {
 
   return (
     <EditorContext.Provider value={editorContextProps}>
-      <Container>
-        <EditorHeader />
+      <Container onClick={handleOnClickFocus}>
+        <EditorHeader onClick={handleOnClickFocus} />
         <Wrapper ref={editorImage}>
           <div>
             <Editor
@@ -134,7 +136,7 @@ const CreateImageArea: React.FC = () => {
           </div>
         </Wrapper>
       </Container>
-      <SaveImageButton toImageElement={editorImage.current} />
+        <SaveImageButton toImageElement={editorImage.current} />
     </EditorContext.Provider>
   )
 };

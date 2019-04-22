@@ -22,9 +22,13 @@ const Header = styled.div`
   box-shadow: 0 1px 8px #777;
 `;
 
-const EditorHeader: React.FC = () => {
+interface EditorHeaderProps {
+  onClick: () => void;
+}
+
+const EditorHeader: React.FC<EditorHeaderProps> = ({onClick}) => {
   return (
-    <Header>
+    <Header onClick={onClick}>
       <StylingButton label="bold" font="BOLD" />
       <StylingButton label="italic" font="ITALIC" />
       <AdjustSizeButton />
