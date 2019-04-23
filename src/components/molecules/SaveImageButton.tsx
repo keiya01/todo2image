@@ -11,8 +11,8 @@ const Button = styled.button`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  height: 55px;
-  width: 55px;
+  height: 60px;
+  width: 60px;
   border-radius: 50%;
   background-color: ${MainColor};
   box-shadow: 0 2px 5px #aaa;
