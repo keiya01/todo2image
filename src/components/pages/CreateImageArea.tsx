@@ -32,6 +32,7 @@ interface VisibleModals {
 interface State {
   textColor: string;
   visibleModals: VisibleModals;
+  visibleHeader: boolean;
 }
 
 const initialState = {
@@ -39,7 +40,8 @@ const initialState = {
   visibleModals: {
     colorModal: false,
     sizeModal: false,
-  }
+  },
+  visibleHeader: false
 }
 
 interface Action {
@@ -49,6 +51,12 @@ interface Action {
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
+    case "TOGGLE_HEADER": {
+      return {
+        ...state,
+        visibleHeader: action.visible || false
+      }
+    }
     case "TOGGLE_COLOR_MODAL": {
       return {
         ...state,
@@ -95,7 +103,7 @@ const CreateImageArea: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const editor: React.RefObject<Editor> | null = useRef(null);
   const editorImage: React.RefObject<HTMLDivElement> | null = useRef(null);
-  const { visibleModals } = state;
+  const { visibleModals, visibleHeader } = state;
 
   const handleOnChange = (editorState: EditorState) => {
     setEditorState(editorState);
@@ -106,7 +114,13 @@ const CreateImageArea: React.FC = () => {
       return;
     }
 
+    dispatch({type: "TOGGLE_HEADER", visible: true});
+
     editor.current.focus();
+  }
+
+  const handleOnBlur = () => {
+    dispatch({type: "TOGGLE_HEADER", visible: false});
   }
 
   const handleOnToggleModal = (action: ToggleModalFunc) => {
@@ -123,7 +137,7 @@ const CreateImageArea: React.FC = () => {
   return (
     <EditorContext.Provider value={editorContextProps}>
       <Container onClick={handleOnClickFocus}>
-        <EditorHeader onClick={handleOnClickFocus} />
+        <EditorHeader visible={visibleHeader} />
         <Wrapper ref={editorImage}>
           <div>
             <Editor
@@ -131,6 +145,7 @@ const CreateImageArea: React.FC = () => {
               customStyleMap={CustomStyleMap}
               editorState={editorState}
               onChange={handleOnChange}
+              onBlur={handleOnBlur}
               textAlignment="center"
               placeholder="TODOを入力"
             />

@@ -27,14 +27,15 @@ const StylingButton: React.FC<StylingButtonProps> = ({ label, font }) => {
       return;
     }
 
-    const currentInlineStyle = editorState.getCurrentInlineStyle();
-    if(currentInlineStyle.has(font)) {
-      setIsActive(false);
-    }else {
+    const nextEditorState = RichUtils.toggleInlineStyle(editorState, font);
+    const nextInlineStyle = nextEditorState.getCurrentInlineStyle();
+    if(nextInlineStyle.has(font)) {
       setIsActive(true);
+    }else {
+      setIsActive(false);
     }
-    
-    setEditorState(RichUtils.toggleInlineStyle(editorState, font));
+
+    setEditorState(nextEditorState);
     
     e.preventDefault();
   }
