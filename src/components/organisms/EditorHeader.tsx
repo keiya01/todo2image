@@ -25,6 +25,7 @@ const Header = styled.div`
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.7);
   height: ${HeaderHeight}px;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
@@ -32,14 +33,9 @@ const Header = styled.div`
   animation: ${showHeader} 300ms ease-out;
 `;
 
-interface EditorHeaderProps {
-  visible: boolean;
-}
-
-const EditorHeader: React.FC<EditorHeaderProps> = ({visible}) => {
-  console.log(visible)
-  return ( 
-    <Header style={{display: visible ? 'flex' : 'none'}}>
+const EditorHeader: React.FC = () => {
+  return (
+    <Header>
       <StylingButton label="bold" font="BOLD" />
       <StylingButton label="italic" font="ITALIC" />
       <AdjustSizeButton />
@@ -48,6 +44,4 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({visible}) => {
   );
 };
 
-export default React.memo(EditorHeader, (prevProps, nextProps) => {
-  return prevProps.visible === nextProps.visible;
-});
+export default React.memo(EditorHeader, () => true);

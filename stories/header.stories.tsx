@@ -4,4 +4,4 @@ import {storiesOf} from "@storybook/react";
 import EditorHeader from "../src/components/organisms/EditorHeader";
 
 storiesOf("Header", module)
-.add("EditorHeader", () => <EditorHeader onClick={() => {}}/>);
+.add("EditorHeader", () => <EditorHeader/>);
