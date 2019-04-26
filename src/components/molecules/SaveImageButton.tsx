@@ -35,7 +35,6 @@ const ImageModalContainer = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  height: ${isSmartphone ? `${window.outerHeight}px` : '100vh'};
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
