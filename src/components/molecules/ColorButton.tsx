@@ -105,7 +105,12 @@ const ColorButton: React.FC<ColorButtonProps> = () => {
     const currentInlineStyle = editorState.getCurrentInlineStyle();
 
     if (!currentInlineStyle.has(colorKey)) {
-      nextEditorState = RichUtils.toggleInlineStyle(nextEditorState, colorKey);
+      nextEditorState = Object.keys(CustomStyleColor).reduce((state, color) => {
+        if(currentInlineStyle.has(color) || colorKey === color){
+          return RichUtils.toggleInlineStyle(state, color);
+        }
+        return state;
+      }, nextEditorState);
     }
 
     setSelectedColor(CustomStyleColor[colorKey].color);
