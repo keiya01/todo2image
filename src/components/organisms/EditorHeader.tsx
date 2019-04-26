@@ -6,8 +6,7 @@ import AdjustSizeButton from '../molecules/AdjustSizeButton';
 
 const checkPWA = () => {
   const isSmartphone = navigator.userAgent.toLowerCase().match(/iphone | android | ipad/) !== null;
-  const uri = new URLSearchParams(location.href);
-  const  isPWA = uri.get('launch') === 'true';
+  const isPWA = matchMedia("(display-mode: standalone)").matches;
 
   return isSmartphone && isPWA;
 }
