@@ -1,0 +1,1 @@
+export const isSmartphone = navigator.userAgent.toLowerCase().match(/iphone | android | ipad/) !== null;
