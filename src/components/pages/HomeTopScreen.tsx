@@ -42,7 +42,7 @@ const HomeTopScreen: React.FC<RouteComponentProps> = ({history}) => {
     <Container>
       <Wrapper>
         <Contents>
-          <Title>My Wallpaper</Title>
+          <Title>TODO2IMAGE</Title>
           <LongRadiusButton
             text="画像を作成する"
             css={css`margin: 0 auto; margin-top: 200px;`}

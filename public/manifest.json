@@ -1,7 +1,7 @@
 {
-  "short_name": "Todo2Image",
-  "name": "Todo2Image",
-  "start_url": "./index.html",
+  "short_name": "TODO2IMAGE",
+  "name": "TODO2IMAGE",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#ffffff",
   "icons": [
@@ -9,6 +9,11 @@
       "src": "./thumbnail.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "./splash.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "background_color": "#ffbf00"
