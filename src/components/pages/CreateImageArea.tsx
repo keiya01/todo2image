@@ -100,7 +100,7 @@ const CreateImageArea: React.FC = () => {
   const handleOnChange = (nextEditorState: EditorState) => {
     const currentInlineStyle = editorState.getCurrentInlineStyle();
     const nextInlineStyle = nextEditorState.getCurrentInlineStyle();
-    if(!currentInlineStyle.isEmpty() && nextInlineStyle.isEmpty()) {
+    if (!currentInlineStyle.isEmpty() && nextInlineStyle.isEmpty()) {
       // 初回読み込み時にHeaderで変更したstyleが
       // nextEditorStateに反映されていないためoverrideする
       setEditorState(EditorState.setInlineStyleOverride(nextEditorState, currentInlineStyle));
@@ -130,8 +130,8 @@ const CreateImageArea: React.FC = () => {
 
   return (
     <EditorContext.Provider value={editorContextProps}>
+      <EditorHeader />
       <Container onClick={handleOnClickFocus}>
-        <EditorHeader />
         <Wrapper ref={editorImage}>
           <div>
             <Editor
@@ -145,7 +145,7 @@ const CreateImageArea: React.FC = () => {
           </div>
         </Wrapper>
       </Container>
-        <SaveImageButton toImageElement={editorImage.current} />
+      <SaveImageButton toImageElement={editorImage.current} />
     </EditorContext.Provider>
   )
 };
