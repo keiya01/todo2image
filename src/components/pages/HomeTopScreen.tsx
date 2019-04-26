@@ -2,6 +2,7 @@ import * as React from "react";
 import styled, { css } from "styled-components";
 import { RouteComponentProps } from "react-router-dom";
 import { MainColor } from "../atoms/color";
+import { textStyle } from "../atoms/text";
 import LongRadiusButton from "../molecules/LongRadiusButton";
 
 const Container = styled.div`
@@ -16,10 +17,9 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 90%;
-  height: 95%;
+  width: 100%;
+  height: 100%;
   background-color: ${MainColor};
-  box-shadow: 0 0 10px #aaa;
 `;
 
 const Contents = styled.div`
@@ -33,7 +33,21 @@ const Title = styled.h1`
   letter-spacing: 0.1em;
 `;
 
-const HomeTopScreen: React.FC<RouteComponentProps> = ({history}) => {
+const DescriptionContainer = styled.ul`
+  max-width: 300px;
+  margin: 50px auto;
+`;
+
+const Description = styled.li`
+  font-size: 15px;
+  color: #555;
+  text-align: left;
+  margin-left: -10px;
+  margin-bottom: 10px;
+  ${textStyle}
+`;
+
+const HomeTopScreen: React.FC<RouteComponentProps> = ({ history }) => {
   const handleOnClick = () => {
     history.push("create");
   };
@@ -43,9 +57,14 @@ const HomeTopScreen: React.FC<RouteComponentProps> = ({history}) => {
       <Wrapper>
         <Contents>
           <Title>TODO2IMAGE</Title>
+          <DescriptionContainer>
+            <Description>ホーム画面用の画像を生成するアプリ</Description>
+            <Description>Todoやメモを簡単に画像へ変換することができる</Description>
+            <Description>画面サイズに合わせて画像を生成する</Description>
+          </DescriptionContainer>
           <LongRadiusButton
             text="画像を作成する"
-            css={css`margin: 0 auto; margin-top: 200px;`}
+            css={css`margin: 0 auto;`}
             onClick={handleOnClick}
           />
         </Contents>
