@@ -13,8 +13,8 @@ const Header = styled.div`
   left: 0;
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.7);
-  height: ${isSmartphone ? 55 : 40}px;
-  padding-top: ${isSmartphone ? 15 : 0}px;
+  height: ${isSmartphone ? 60 : 40}px;
+  padding-top: ${isSmartphone ? 20 : 0}px;
   display: flex;
   flex-direction: row;
   align-items: center;
