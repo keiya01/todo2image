@@ -3,16 +3,15 @@ import styled from "styled-components";
 import StylingButton from '../molecules/StylingButton';
 import ColorButton from '../molecules/ColorButton';
 import AdjustSizeButton from '../molecules/AdjustSizeButton';
+import {isSmartphone} from "../../constants/userAgent";
 
 const checkPWA = () => {
-  const isSmartphone = navigator.userAgent.toLowerCase().match(/iphone | android | ipad/) !== null;
   const isPWA = matchMedia("(display-mode: standalone)").matches;
 
   return isSmartphone && isPWA;
 }
 
-const isSmartphone = checkPWA();
-
+const isPWA = checkPWA();
 const Header = styled.div`
   position: fixed;
   top: 0;
@@ -20,8 +19,8 @@ const Header = styled.div`
   left: 0;
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.7);
-  height: ${isSmartphone ? 60 : 40}px;
-  padding-top: ${isSmartphone ? 20 : 0}px;
+  height: ${isPWA ? 60 : 40}px;
+  padding-top: ${isPWA ? 20 : 0}px;
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -3,6 +3,7 @@ import styled, { css, keyframes } from "styled-components";
 import { fadeIn } from "../../common/animation/fadeIn";
 import { MainColor } from "../atoms/color";
 import LongRadiusButton from "../molecules/LongRadiusButton";
+import {isSmartphone} from "../../constants/userAgent";
 import * as HTMLToImage from "html-to-image";
 
 const { useState, useRef } = React;
@@ -22,23 +23,9 @@ const Button = styled.button`
   font-size: 14px;
   opacity: 0.8;
   animation: ${fadeIn} 200ms ease-in;
-`;
-
-const scaleAnimation = keyframes`
-  0% {
-    transform: translateY(-100%);
-  }
-  30% {
-    transform: translateY(5%);
-  }
-  60% {
-    transform: translateY(0%);
-  }
-  80% {
-    transform: translateY(1%);
-  }
-  100% {
-    transform: translateY(0);
+  transition: transform 300ms ease-in;
+  &:active {
+    transform: scale(0.8);
   }
 `;
 
@@ -48,11 +35,13 @@ const ImageModalContainer = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  height: ${isSmartphone ? `${window.outerHeight}px` : '100vh'};
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: ${fadeIn} 300ms ease;
 `;
 
 const ImageModal = styled.div`
@@ -64,7 +53,6 @@ const ImageModal = styled.div`
   background-color: #fff;
   text-align: center;
   border-radius: 5px;
-  animation: ${scaleAnimation} 500ms ease-out;
 `;
 
 const SavedImage = styled.img`
@@ -95,8 +83,6 @@ const SaveImageButton: React.FC<SaveImageButtonProps> = ({ toImageElement }) => 
     }
 
     HTMLToImage.toPng(toImageElement).then(dataURI => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isSmartphone = userAgent.match(/iphone|ipad|android/);
       if (isSmartphone) {
         savedImage.current = dataURI;
         setIsVisibleModal(true);
