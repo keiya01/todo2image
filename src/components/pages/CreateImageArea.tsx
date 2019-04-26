@@ -109,7 +109,7 @@ const CreateImageArea: React.FC = () => {
     setEditorState(nextEditorState);
   }
 
-  const handleOnClickFocus = () => {
+  const handleOnFocus = () => {
     if (!editor.current) {
       return;
     }
@@ -131,7 +131,7 @@ const CreateImageArea: React.FC = () => {
   return (
     <EditorContext.Provider value={editorContextProps}>
       <EditorHeader />
-      <Container onClick={handleOnClickFocus}>
+      <Container onClick={handleOnFocus}>
         <Wrapper ref={editorImage}>
           <div>
             <Editor
