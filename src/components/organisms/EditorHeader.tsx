@@ -1,21 +1,10 @@
 import * as React from "react";
-import styled, {keyframes} from "styled-components";
+import styled from "styled-components";
 import StylingButton from '../molecules/StylingButton';
 import ColorButton from '../molecules/ColorButton';
 import AdjustSizeButton from '../molecules/AdjustSizeButton';
 
-const HeaderHeight = 40;
-
-const showHeader = keyframes`
-  from {
-    opacity: 0.2;
-    transform: translateY(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
+const isSmartphone = navigator.userAgent.toLowerCase().match(/iphone | android | ipad/) !== null;
 
 const Header = styled.div`
   position: fixed;
@@ -24,13 +13,13 @@ const Header = styled.div`
   left: 0;
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.7);
-  height: ${HeaderHeight}px;
+  height: ${isSmartphone ? 55 : 40}px;
+  padding-top: ${isSmartphone ? 15 : 0}px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
   box-shadow: 0 1px 8px #777;
-  animation: ${showHeader} 300ms ease-out;
 `;
 
 const EditorHeader: React.FC = () => {
