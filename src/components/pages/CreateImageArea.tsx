@@ -99,7 +99,6 @@ const CreateImageArea: React.FC = () => {
 
   const handleOnChange = (nextEditorState: EditorState) => {
     const currentInlineStyle = editorState.getCurrentInlineStyle();
-    const nextInlineStyle = nextEditorState.getCurrentInlineStyle();
 
     // Headerで変更したstyleがnextEditorStateに反映されていないためoverrideする
     setEditorState(EditorState.setInlineStyleOverride(nextEditorState, currentInlineStyle));
