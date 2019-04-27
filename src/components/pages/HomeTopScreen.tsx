@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
 import { RouteComponentProps } from "react-router-dom";
-import { MainColor } from "../atoms/color";
+import { MainColor, ActiveColor } from "../atoms/color";
 import { textStyle } from "../atoms/text";
 import LongRadiusButton from "../molecules/LongRadiusButton";
 
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: ${MainColor};
+  background-color: #ffffff;
 `;
 
 const Contents = styled.div`
@@ -29,20 +29,24 @@ const Contents = styled.div`
 
 const Title = styled.h1`
   font-size: 30px;
-  color: #fff;
+  color: ${MainColor};
   letter-spacing: 0.1em;
 `;
 
 const DescriptionContainer = styled.ul`
-  max-width: 300px;
+  width: 90%;
+  max-width: 320px;
   margin: 50px auto;
+  background-color: #eee;
+  border-radius: 20px;
+  padding: 20px;
 `;
 
 const Description = styled.li`
   font-size: 15px;
   color: #555;
   text-align: left;
-  margin-left: -10px;
+  margin-left: 30px;
   margin-bottom: 10px;
   ${textStyle}
 `;
@@ -56,7 +60,7 @@ const HomeTopScreen: React.FC<RouteComponentProps> = ({ history }) => {
     <Container>
       <Wrapper>
         <Contents>
-          <Title>TODO2IMAGE</Title>
+          <Title>Todo2Image</Title>
           <DescriptionContainer>
             <Description>ホーム画面用の画像を生成するアプリ</Description>
             <Description>Todoやメモを簡単に画像へ変換することができる</Description>

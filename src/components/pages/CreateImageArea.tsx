@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { EditorState, Editor } from "draft-js";
+import { EditorState, Editor, ContentBlock } from "draft-js";
 import EditorHeader from "../organisms/EditorHeader";
 import { CustomStyleColor } from "../molecules/ColorButton";
 import "draft-js/dist/Draft.css";
@@ -11,9 +11,6 @@ const { useState, useRef, useReducer } = React;
 const Container = styled.div`
   width: 100%;
   overflow-y: hidden;
-`;
-
-const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -100,6 +97,10 @@ const CreateImageArea: React.FC = () => {
   const handleOnChange = (nextEditorState: EditorState) => {
     const currentInlineStyle = editorState.getCurrentInlineStyle();
 
+    const length = nextEditorState.getCurrentContent().getBlockMap().reduce((totalLength: number, block: ContentBlock) => {
+      return totalLength + block.getLength();
+    }, 0);
+
     // Headerで変更したstyleがnextEditorStateに反映されていないためoverrideする
     setEditorState(EditorState.setInlineStyleOverride(nextEditorState, currentInlineStyle));
   }
@@ -126,19 +127,17 @@ const CreateImageArea: React.FC = () => {
   return (
     <EditorContext.Provider value={editorContextProps}>
       <EditorHeader />
-      <Container onClick={handleOnFocus}>
-        <Wrapper ref={editorImage}>
-          <div>
-            <Editor
-              ref={editor}
-              customStyleMap={CustomStyleMap}
-              editorState={editorState}
-              onChange={handleOnChange}
-              textAlignment="center"
-              placeholder="TODOを入力"
-            />
-          </div>
-        </Wrapper>
+      <Container onClick={handleOnFocus} ref={editorImage}>
+        <div>
+          <Editor
+            ref={editor}
+            customStyleMap={CustomStyleMap}
+            editorState={editorState}
+            onChange={handleOnChange}
+            textAlignment="center"
+            placeholder="TODOを入力"
+          />
+        </div>
       </Container>
       <SaveImageButton toImageElement={editorImage.current} />
     </EditorContext.Provider>

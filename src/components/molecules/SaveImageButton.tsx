@@ -96,6 +96,10 @@ const SaveImageButton: React.FC<SaveImageButtonProps> = ({ toImageElement }) => 
     setIsVisibleModal(false);
   }
 
+  if(!toImageElement) {
+    return null;
+  }
+
   return (
     <>
       <Button onClick={handleOnSaveImage}>保存</Button>
